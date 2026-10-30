@@ -70,7 +70,8 @@ htmlcov/
 
 # ---------- ML ----------
 .ipynb_checkpoints/
-data/
+**/data/*
+!**/data/README.md
 datasets/
 checkpoints/
 runs/
@@ -78,7 +79,6 @@ wandb/
 mlruns/
 lightning_logs/
 *.ckpt
-*.pt
 *.pth
 *.h5
 *.onnx
