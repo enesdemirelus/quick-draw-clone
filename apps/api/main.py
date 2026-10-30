@@ -1,12 +1,9 @@
-import base64
-import io
 from pathlib import Path
 
 import numpy as np
 import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from PIL import Image
 from pydantic import BaseModel
 
 from model import CNN
@@ -23,7 +20,7 @@ app.add_middleware(
 
 CLASSES = ["cat", "dog", "house", "car", "tree", "apple", "fish", "bicycle", "star", "airplane"]
 
-MODEL_PATH = Path(__file__).parent / "best_model.pt"
+MODEL_PATH = Path(__file__).parent.parent / "ml" / "best_model.pt"
 
 model = CNN()
 model.load_state_dict(torch.load(MODEL_PATH, map_location="cpu"))
