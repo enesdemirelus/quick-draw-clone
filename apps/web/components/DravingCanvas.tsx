@@ -22,6 +22,30 @@ export default function DrawingCanvas() {
     ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
   }
 
+  function getPixels() {
+    const canvas = canvasRef.current;
+    if (!canvas) return null;
+
+    const smallCanvas = document.createElement("canvas");
+    smallCanvas.width = 28;
+    smallCanvas.height = 28;
+
+    const ctx = smallCanvas.getContext("2d");
+    if (!ctx) return null;
+
+    ctx.imageSmoothingQuality = "high";
+    ctx.drawImage(canvas, 0, 0, 28, 28);
+
+    const { data } = ctx.getImageData(0, 0, 28, 28);
+    const pixels: number[] = [];
+
+    for (let i = 3; i < data.length; i += 4) {
+      pixels.push(data[i]);
+    }
+
+    return pixels;
+  }
+
   function handleDelete() {
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext("2d");
@@ -58,6 +82,9 @@ export default function DrawingCanvas() {
       />
       <button type="button" onClick={handleDelete}>
         Delete
+      </button>
+      <button type="button" onClick={() => console.log(getPixels())}>
+        Test
       </button>
     </div>
   );
