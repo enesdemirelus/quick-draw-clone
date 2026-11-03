@@ -1,10 +1,26 @@
 "use client";
 
+import axios from "axios";
 import { useRef, type PointerEvent } from "react";
 
 export default function DrawingCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawing = useRef(false);
+
+  async function handlePredict() {
+    const pixels = getPixels();
+    if (!pixels) return;
+
+    try {
+      const { data } = await axios.post("http://localhost:8000/predict", {
+        pixels,
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   function handlePointerDown(e: PointerEvent<HTMLCanvasElement>) {
     const ctx = e.currentTarget.getContext("2d");
@@ -83,8 +99,8 @@ export default function DrawingCanvas() {
       <button type="button" onClick={handleDelete}>
         Delete
       </button>
-      <button type="button" onClick={() => console.log(getPixels())}>
-        Test
+      <button type="button" onClick={handlePredict}>
+        Predict
       </button>
     </div>
   );
