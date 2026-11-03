@@ -14,7 +14,7 @@ Trained on 10 classes from the [Quick, Draw! dataset](https://github.com/googlec
 apps/
 ├── ml/    # data download, exploration, model training (PyTorch)
 ├── api/   # FastAPI inference service
-└── web/   # Next.js drawing app (coming soon)
+└── web/   # Next.js drawing app
 ```
 
 ## Model
@@ -95,8 +95,22 @@ curl -X POST http://localhost:8000/predict \
 
 CORS allows `http://localhost:3000` for the web app. `apps/ml/get-single-image.ipynb` prints a real drawing as a pixel list for testing.
 
+## Running the web app
+
+Start the API first, then:
+
+```bash
+cd apps/web
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`, draw one of the 10 classes and press **Guess**. The 280×280 canvas is scaled down to 28×28 and sent to `http://localhost:8000/predict`, and the top 3 predictions are shown with their probabilities.
+
+Built with Next.js 16, React 19, Tailwind CSS 4 and axios.
+
 ## Roadmap
 
-- [ ] Next.js app with a drawing canvas
+- [x] Next.js app with a drawing canvas
 - [x] API to serve predictions
 - [x] Train the classifier
